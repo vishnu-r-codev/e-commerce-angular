@@ -26,7 +26,7 @@ A modern e-commerce application built with Angular 19, featuring a clean archite
 1. Clone the repository:
 
 ```bash
-git clone [<repository-url>](https://github.com/vishnu-r-codev/e-commerce-angular.git)
+git clone https://github.com/vishnu-r-codev/e-commerce-angular.git
 cd ecommerce-angular
 ```
 
