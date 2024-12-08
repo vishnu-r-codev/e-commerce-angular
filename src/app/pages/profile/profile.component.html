@@ -1,0 +1,106 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>Profile</h2>
+    @if (currentUser) {
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input 
+            id="name"
+            type="text"
+            formControlName="name"
+            [class.error]="isFieldInvalid('name')"
+          >
+          @if (isFieldInvalid('name')) {
+            <div class="error-message">Name is required</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            id="email"
+            type="email"
+            formControlName="email"
+            [class.error]="isFieldInvalid('email')"
+          >
+          @if (isFieldInvalid('email')) {
+            <div class="error-message">Please enter a valid email</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input 
+            id="currentPassword"
+            type="password"
+            formControlName="currentPassword"
+            [class.error]="isFieldInvalid('currentPassword')"
+          >
+          @if (isFieldInvalid('currentPassword')) {
+            <div class="error-message">Current password is required to make changes</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">New Password (optional)</label>
+          <input 
+            id="newPassword"
+            type="password"
+            formControlName="newPassword"
+          >
+        </div>
+
+        <button 
+          type="submit" 
+          class="submit-btn"
+          [disabled]="profileForm.invalid || isLoading"
+        >
+          @if (isLoading) {
+            <span>Saving...</span>
+          } @else {
+            <span>Save Changes</span>
+          }
+        </button>
+      </form>
+
+      <div class="profile-actions">
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </div>
+    }
+  </div>
+
+  <div class="orders-section">
+    <h3>Order History</h3>
+    @if (orders.length) {
+      <div class="orders-list">
+        @for (order of orders; track order.id) {
+          <div class="order-card">
+            <div class="order-header">
+              <span>Order #{{order.id}}</span>
+              <span>{{order.date | date}}</span>
+            </div>
+            <div class="order-items">
+              @for (item of order.items; track item.id) {
+                <div class="order-item">
+                  <img [src]="item.image" [alt]="item.name">
+                  <div class="item-details">
+                    <h4>{{item.name}}</h4>
+                    <p>Quantity: {{item.quantity}}</p>
+                    <p>${{item.price}}</p>
+                  </div>
+                </div>
+              }
+            </div>
+            <div class="order-footer">
+              <span>Total: ${{order.total}}</span>
+              <span class="status">{{order.status}}</span>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="no-orders">No orders yet</p>
+    }
+  </div>
+</div> 

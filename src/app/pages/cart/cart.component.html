@@ -1,0 +1,85 @@
+<div class="cart-container">
+  @if (loading$ | async) {
+    <div class="loading-spinner">
+      <i class="pi pi-spinner pi-spin"></i>
+    </div>
+  } @else if (error$ | async) {
+    <div class="error-message">
+      {{ error$ | async }}
+    </div>
+  } @else if ((cartCount$ | async) === 0) {
+    <div class="empty-cart">
+      <i class="pi pi-shopping-cart"></i>
+      <h2>Your cart is empty</h2>
+      <p>Add some products to your cart and they will appear here</p>
+      <button routerLink="/products">Continue Shopping</button>
+    </div>
+  } @else {
+    <div class="cart-content">
+      <h1>Shopping Cart</h1>
+      
+      <div class="cart-grid">
+        <!-- Cart Items -->
+        <div class="cart-items">
+          @for (item of cartItems$ | async; track item.product.id) {
+            <div class="cart-item">
+              <img [src]="item.product.image" [alt]="item.product.name">
+              
+              <div class="item-details">
+                <h3>{{item.product.name}}</h3>
+                <p class="price">${{item.product.price}}</p>
+                
+                <div class="quantity-controls">
+                  <button (click)="updateQuantity(item, item.quantity - 1)">
+                    <i class="pi pi-minus"></i>
+                  </button>
+                  <span>{{item.quantity}}</span>
+                  <button (click)="updateQuantity(item, item.quantity + 1)">
+                    <i class="pi pi-plus"></i>
+                  </button>
+                </div>
+                
+                <button class="remove-btn" (click)="removeItem(item)">
+                  <i class="pi pi-trash"></i>
+                  Remove
+                </button>
+              </div>
+              
+              <div class="item-total">
+                ${{item.product.price * item.quantity | number:'1.2-2'}}
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+          <h3>Order Summary</h3>
+          
+          <div class="summary-row">
+            <span>Items ({{cartCount$ | async}})</span>
+            <span>${{cartTotal$ | async | number:'1.2-2'}}</span>
+          </div>
+          
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+          
+          <div class="summary-total">
+            <span>Total</span>
+            <span>${{cartTotal$ | async | number:'1.2-2'}}</span>
+          </div>
+
+          <button class="checkout-btn" routerLink="/checkout">
+            Proceed to Checkout
+          </button>
+
+          <button class="clear-cart-btn" (click)="clearCart()">
+            Clear Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div> 

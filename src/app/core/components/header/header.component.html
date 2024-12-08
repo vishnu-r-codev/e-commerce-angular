@@ -1,0 +1,90 @@
+<header class="header">
+  <div class="header-content">
+    <div class="logo">
+      <a routerLink="/">
+        <i class="pi pi-shopping-cart"></i>
+        <span>My Shop</span>
+      </a>
+    </div>
+
+    <div class="search-bar">
+      <div class="search-input">
+        <i class="pi pi-search"></i>
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchChange($event)"
+          placeholder="Search products..."
+        >
+        @if (isSearching && searchResults.length > 0) {
+          <div class="search-results">
+            @for (product of searchResults; track product.id) {
+              <div class="search-item" (click)="goToProduct(product)">
+                <img [src]="product.image" [alt]="product.name">
+                <div class="item-details">
+                  <h4>{{product.name}}</h4>
+                  <p>${{product.price}}</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <nav class="nav-links" [class.open]="isMobileMenuOpen">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <i class="pi pi-home"></i>
+        <span>Home</span>
+      </a>
+      <a routerLink="/products" routerLinkActive="active">
+        <i class="pi pi-shopping-bag"></i>
+        <span>Products</span>
+      </a>
+      <a routerLink="/cart" routerLinkActive="active" class="cart-link">
+        <i class="pi pi-shopping-cart"></i>
+        <span>Cart</span>
+        @if (cartCount > 0) {
+          <span class="cart-badge">{{cartCount}}</span>
+        }
+      </a>
+      @if (!currentUser) {
+        <a routerLink="/auth/login" routerLinkActive="active">
+          <i class="pi pi-sign-in"></i>
+          <span>Login</span>
+        </a>
+        <a routerLink="/auth/register" routerLinkActive="active">
+          <i class="pi pi-user-plus"></i>
+          <span>Register</span>
+        </a>
+      } @else {
+        <div class="user-menu" (click)="toggleUserMenu()" [class.active]="isUserMenuOpen">
+          <i class="pi pi-user"></i>
+          <span>{{currentUser.name}}</span>
+          <i class="pi pi-chevron-down"></i>
+          
+          @if (isUserMenuOpen) {
+            <div class="dropdown-menu">
+              <a routerLink="/profile">
+                <i class="pi pi-user-edit"></i>
+                Profile
+              </a>
+              <a routerLink="/orders">
+                <i class="pi pi-shopping-bag"></i>
+                Orders
+              </a>
+              <button (click)="logout()">
+                <i class="pi pi-sign-out"></i>
+                Logout
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </nav>
+
+    <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+      <i class="pi pi-bars"></i>
+    </button>
+  </div>
+</header> 

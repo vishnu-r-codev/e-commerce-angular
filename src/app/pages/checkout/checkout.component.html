@@ -1,0 +1,189 @@
+<div class="checkout-container">
+  <div class="checkout-content">
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+      <div class="shipping-section">
+        <h2>Shipping Information</h2>
+        <div formGroupName="shipping">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input 
+              id="fullName"
+              type="text"
+              formControlName="fullName"
+              [class.error]="isFieldInvalid('shipping', 'fullName')"
+            >
+            @if (isFieldInvalid('shipping', 'fullName')) {
+              <div class="error-message">{{getErrorMessage('shipping', 'fullName')}}</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input 
+              id="address"
+              type="text"
+              formControlName="address"
+              [class.error]="isFieldInvalid('shipping', 'address')"
+            >
+            @if (isFieldInvalid('shipping', 'address')) {
+              <div class="error-message">{{getErrorMessage('shipping', 'address')}}</div>
+            }
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input 
+                id="city"
+                type="text"
+                formControlName="city"
+                [class.error]="isFieldInvalid('shipping', 'city')"
+              >
+              @if (isFieldInvalid('shipping', 'city')) {
+                <div class="error-message">{{getErrorMessage('shipping', 'city')}}</div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="state">State</label>
+              <input 
+                id="state"
+                type="text"
+                formControlName="state"
+                [class.error]="isFieldInvalid('shipping', 'state')"
+              >
+              @if (isFieldInvalid('shipping', 'state')) {
+                <div class="error-message">{{getErrorMessage('shipping', 'state')}}</div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="zipCode">ZIP Code</label>
+              <input 
+                id="zipCode"
+                type="text"
+                formControlName="zipCode"
+                [class.error]="isFieldInvalid('shipping', 'zipCode')"
+              >
+              @if (isFieldInvalid('shipping', 'zipCode')) {
+                <div class="error-message">{{getErrorMessage('shipping', 'zipCode')}}</div>
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input 
+              id="phone"
+              type="tel"
+              formControlName="phone"
+              [class.error]="isFieldInvalid('shipping', 'phone')"
+            >
+            @if (isFieldInvalid('shipping', 'phone')) {
+              <div class="error-message">{{getErrorMessage('shipping', 'phone')}}</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <h2>Payment Method</h2>
+        <div formGroupName="payment">
+          <div class="payment-methods">
+            @for (method of paymentMethods; track method.id) {
+              <div class="payment-method" [class.active]="checkoutForm.get('payment.method')?.value === method.id">
+                <input 
+                  type="radio" 
+                  [id]="method.id" 
+                  formControlName="method"
+                  [value]="method.id"
+                >
+                <label [for]="method.id">
+                  <i [class]="method.icon"></i>
+                  <span>{{method.name}}</span>
+                </label>
+              </div>
+            }
+          </div>
+
+          @if (checkoutForm.get('payment.method')?.value === 'card') {
+            <div class="card-details">
+              <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input 
+                  id="cardNumber"
+                  type="text"
+                  formControlName="cardNumber"
+                  [class.error]="isFieldInvalid('payment', 'cardNumber')"
+                >
+                @if (isFieldInvalid('payment', 'cardNumber')) {
+                  <div class="error-message">{{getErrorMessage('payment', 'cardNumber')}}</div>
+                }
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="expiryDate">Expiry Date</label>
+                  <input 
+                    id="expiryDate"
+                    type="text"
+                    placeholder="MM/YY"
+                    formControlName="expiryDate"
+                    [class.error]="isFieldInvalid('payment', 'expiryDate')"
+                  >
+                  @if (isFieldInvalid('payment', 'expiryDate')) {
+                    <div class="error-message">{{getErrorMessage('payment', 'expiryDate')}}</div>
+                  }
+                </div>
+
+                <div class="form-group">
+                  <label for="cvv">CVV</label>
+                  <input 
+                    id="cvv"
+                    type="text"
+                    formControlName="cvv"
+                    [class.error]="isFieldInvalid('payment', 'cvv')"
+                  >
+                  @if (isFieldInvalid('payment', 'cvv')) {
+                    <div class="error-message">{{getErrorMessage('payment', 'cvv')}}</div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="order-summary">
+    <h2>Order Summary</h2>
+    <div class="summary-row">
+      <span>Items ({{cartCount}})</span>
+      <span>${{cartTotal | number:'1.2-2'}}</span>
+    </div>
+    <div class="summary-row">
+      <span>Shipping</span>
+      <span>Free</span>
+    </div>
+    <div class="summary-row">
+      <span>Tax</span>
+      <span>${{cartTotal * 0.1 | number:'1.2-2'}}</span>
+    </div>
+    <div class="summary-row total">
+      <span>Total</span>
+      <span>${{cartTotal * 1.1 | number:'1.2-2'}}</span>
+    </div>
+    <button 
+      class="place-order-btn"
+      (click)="onSubmit()"
+      [disabled]="checkoutForm.invalid || isProcessing"
+    >
+      @if (isProcessing) {
+        <span>Processing...</span>
+      } @else {
+        <span>Place Order</span>
+      }
+    </button>
+  </div>
+</div> 

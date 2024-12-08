@@ -1,0 +1,123 @@
+<div class="products-container">
+  @if (loading$ | async) {
+    <div class="loading-spinner">
+      <i class="pi pi-spinner pi-spin"></i>
+    </div>
+  } @else if (error$ | async) {
+    <div class="error-message">
+      {{ error$ }}
+      <button (click)="retryLoading()">Retry</button>
+    </div>
+  } @else {
+    <aside class="filters">
+      @if (filters$ | async; as filters) {
+        <div class="filter-section">
+          <h3>Categories</h3>
+          <div class="category-list">
+            <button 
+              class="category-btn" 
+              [class.active]="filters.category === null"
+              (click)="updateFilters({ category: null })"
+            >
+              All Categories
+            </button>
+            @for (category of categories$ | async; track category) {
+              <button 
+                class="category-btn" 
+                [class.active]="filters.category === category"
+                (click)="updateFilters({ category: category })"
+              >
+                {{category}}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Price Range</h3>
+          <div class="price-range">
+            <input 
+              type="range" 
+              [min]="0" 
+              [max]="1000" 
+              [value]="filters.priceRange[0]"
+              (input)="handlePriceChange($event, filters.priceRange[1])"
+            >
+            <div class="range-values">
+              <span>${{filters.priceRange[0]}}</span>
+              <span>${{filters.priceRange[1]}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Rating</h3>
+          <div class="rating-filters">
+            @for (rating of [4,3,2,1]; track rating) {
+              <button 
+                class="rating-btn" 
+                [class.active]="filters.rating === rating"
+                (click)="updateFilters({ rating: filters.rating === rating ? null : rating })"
+              >
+                <div class="stars">
+                  @for (star of getRatingStars(rating); track star) {
+                    <i class="pi" [class.pi-star-fill]="star === 1" [class.pi-star]="star === 0"></i>
+                  }
+                </div>
+                & up
+              </button>
+            }
+          </div>
+        </div>
+
+        <button class="reset-btn" (click)="resetFilters()">Reset Filters</button>
+      }
+    </aside>
+
+    <main class="products-main">
+      @if (products$ | async; as products) {
+        <div class="products-header">
+          <div class="results-count">{{products.length}} Products</div>
+          @if (filters$ | async; as filters) {
+            <div class="sort-options">
+              <select [value]="filters.sortBy" (change)="handleSortChange($event)">
+                <option value="rating">Top Rated</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
+          }
+        </div>
+
+        @if (products.length === 0) {
+          <div class="no-results">
+            <i class="pi pi-info-circle"></i>
+            <h3>No Products Found</h3>
+            <p>Try adjusting your filters</p>
+            <button class="reset-btn" (click)="resetFilters()">Reset Filters</button>
+          </div>
+        } @else {
+          <div class="products-grid">
+            @for (product of products; track product.id) {
+              <div class="product-card" [routerLink]="['/products', product.id]">
+                <div class="product-image">
+                  <img [src]="product.image" [alt]="product.name">
+                </div>
+                <div class="product-info">
+                  <h3>{{product.name}}</h3>
+                  <div class="rating">
+                    @for (star of getRatingStars(product.rating); track star) {
+                      <i class="pi" [class.pi-star-fill]="star === 1" [class.pi-star]="star === 0"></i>
+                    }
+                  </div>
+                  <div class="price">${{product.price}}</div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      }
+    </main>
+  }
+</div> 

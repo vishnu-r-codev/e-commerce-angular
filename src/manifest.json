@@ -1,0 +1,12 @@
+{
+  "name": "My Shop",
+  "short_name": "My Shop",
+  "theme_color": "#3B82F6",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    // ... your icons configuration
+  ]
+} 

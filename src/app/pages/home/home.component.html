@@ -1,0 +1,87 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <!-- Add decorative shapes -->
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    
+    <div class="hero-content">
+      <h1>Welcome to My Shop</h1>
+      <p>Discover amazing products at great prices</p>
+      <button routerLink="/products">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Featured Categories -->
+  <section class="categories-section">
+    <h2>Shop by Category</h2>
+    <div class="categories-grid">
+      @for (category of categories; track category) {
+        <div class="category-card" [routerLink]="['/products']" [queryParams]="{category: category}">
+          <div class="category-icon">
+            <i [class]="getCategoryIcon(category)"></i>
+          </div>
+          <h3>{{category}}</h3>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="featured-section">
+    <h2>Featured Products</h2>
+    <div class="products-grid">
+      @for (product of featuredProducts; track product.id) {
+        <div class="product-card" [routerLink]="['/products', product.id]">
+          <img [src]="product.image" [alt]="product.name">
+          <div class="product-info">
+            <h3>{{product.name}}</h3>
+            <p class="price">${{product.price}}</p>
+            <div class="rating">
+              @for (star of [1,2,3,4,5]; track star) {
+                <i class="pi" [class.pi-star-fill]="star <= product.rating" 
+                   [class.pi-star]="star > product.rating"></i>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="feature">
+      <i class="pi pi-truck"></i>
+      <h3>Free Shipping</h3>
+      <p>On orders over $50</p>
+    </div>
+    <div class="feature">
+      <i class="pi pi-shield"></i>
+      <h3>Secure Payment</h3>
+      <p>100% secure payment</p>
+    </div>
+    <div class="feature">
+      <i class="pi pi-refresh"></i>
+      <h3>Easy Returns</h3>
+      <p>30 day return policy</p>
+    </div>
+    <div class="feature">
+      <i class="pi pi-clock"></i>
+      <h3>24/7 Support</h3>
+      <p>Dedicated support</p>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="newsletter-content">
+      <h2>Subscribe to Our Newsletter</h2>
+      <p>Get updates about new products and special offers</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+      </div>
+    </div>
+  </section>
+</div> 

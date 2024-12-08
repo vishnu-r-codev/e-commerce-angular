@@ -1,0 +1,128 @@
+<div class="product-details-container">
+  @if (product$ | async; as product) {
+    @if (loading$ | async) {
+      <div class="loading-spinner">
+        <i class="pi pi-spinner pi-spin"></i>
+      </div>
+    } @else if (error$ | async) {
+      <div class="error-message">
+        {{ error$ | async }}
+      </div>
+    } @else {
+      <div class="product-content">
+        <!-- Product Images -->
+        <div class="product-images">
+          <div class="main-image">
+            <img [src]="product.image" [alt]="product.name">
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+          <h1>{{product.name}}</h1>
+          
+          <div class="rating">
+            @for (star of getRatingStars(product.rating); track star) {
+              <i class="pi" [class.pi-star-fill]="star === 1" [class.pi-star]="star === 0"></i>
+            }
+            <span class="rating-value">{{product.rating}}</span>
+          </div>
+
+          <div class="price-section">
+            <div class="price">${{product.price}}</div>
+            <div class="stock-status" [class]="getStockStatus(product).class">
+              {{getStockStatus(product).text}}
+            </div>
+          </div>
+
+          <div class="quantity-section">
+            <label>Quantity:</label>
+            <div class="quantity-controls">
+              <button (click)="updateQuantity(-1)" [disabled]="quantity <= 1">
+                <i class="pi pi-minus"></i>
+              </button>
+              <span>{{quantity}}</span>
+              <button (click)="updateQuantity(1)" [disabled]="quantity >= product.stock">
+                <i class="pi pi-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <button class="add-to-cart-btn" (click)="addToCart(product)" [disabled]="product.stock === 0">
+            <i class="pi pi-shopping-cart"></i>
+            Add to Cart
+          </button>
+
+          <!-- Product Tabs -->
+          <div class="product-tabs">
+            <div class="tab-headers">
+              <button 
+                [class.active]="selectedTab === 'description'"
+                (click)="selectedTab = 'description'"
+              >
+                Description
+              </button>
+              <button 
+                [class.active]="selectedTab === 'specifications'"
+                (click)="selectedTab = 'specifications'"
+              >
+                Specifications
+              </button>
+              <button 
+                [class.active]="selectedTab === 'reviews'"
+                (click)="selectedTab = 'reviews'"
+              >
+                Reviews
+              </button>
+            </div>
+
+            <div class="tab-content">
+              @switch (selectedTab) {
+                @case ('description') {
+                  <div class="description">
+                    {{product.description}}
+                  </div>
+                }
+                @case ('specifications') {
+                  <div class="specifications">
+                    @for (spec of generateMockSpecifications(product); track spec.label) {
+                      <div class="spec-row">
+                        <span class="spec-label">{{spec.label}}</span>
+                        <span class="spec-value">{{spec.value}}</span>
+                      </div>
+                    }
+                  </div>
+                }
+                @case ('reviews') {
+                  <div class="reviews">
+                    @for (review of generateMockReviews(); track review.user) {
+                      <div class="review">
+                        <div class="review-header">
+                          <span class="user">{{review.user}}</span>
+                          <div class="rating">
+                            @for (star of getRatingStars(review.rating); track star) {
+                              <i class="pi" [class.pi-star-fill]="star === 1" [class.pi-star]="star === 0"></i>
+                            }
+                          </div>
+                          <span class="date">{{review.date | date}}</span>
+                        </div>
+                        <p class="comment">{{review.comment}}</p>
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="not-found">
+      <i class="pi pi-exclamation-circle"></i>
+      <h2>Product Not Found</h2>
+      <p>The product you're looking for doesn't exist.</p>
+      <button routerLink="/products">Back to Products</button>
+    </div>
+  }
+</div>
