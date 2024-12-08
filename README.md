@@ -48,7 +48,7 @@
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/vishnu-r-codev/e-commerce-angular.git
 cd ecommerce-angular
 ```
 
@@ -138,12 +138,6 @@ git push origin feature/AmazingFeature
 - [Code of Conduct](docs/code_of_conduct.md)
 - [API Documentation](docs/api.md)
 
-## 🌟 Performance Metrics
-
-- Lighthouse Score: 95+
-- First Contentful Paint: < 1s
-- Time to Interactive: < 2s
-- Performance Score: 90+
 
 ## 📄 License
 
@@ -154,17 +148,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Angular team for the amazing framework
 - PrimeNG for the comprehensive UI components
 - Our amazing contributors
-
-## 📞 Support
-
-- 📧 Email: support@example.com
-- 💬 Discord: [Join our community](https://discord.gg/example)
-- 📚 Stack Overflow: [#angular-ecommerce](https://stackoverflow.com/questions/tagged/angular-ecommerce)
-
----
-
-<p align="center">Made with ❤️ by the Angular E-commerce Team</p>
-```
 
 This README.md provides:
 1. Project overview
