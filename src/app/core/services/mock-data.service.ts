@@ -10,10 +10,8 @@ export interface Product {
   price: number;
   image: string;
   category: CategoryType;
-  rating: number;
   stock: number;
-  brand?: string;
-  model?: string;
+  rating: number;
 }
 
 interface PriceRange {

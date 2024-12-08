@@ -5,8 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { AuthService, User } from '../../services/auth.service';
 import { MockDataService, Product } from '../../services/mock-data.service';
-import { debounceTime, distinctUntilChanged, Subject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -16,8 +15,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  cartItemsCount$: Observable<number>;
-  isLoggedIn$: Observable<boolean>;
   cartCount: number = 0;
   currentUser: User | null = null;
   isMobileMenuOpen = false;
@@ -33,8 +30,6 @@ export class HeaderComponent implements OnInit {
     private mockDataService: MockDataService,
     private router: Router
   ) {
-    this.cartItemsCount$ = this.cartService.getCartCount();
-    this.isLoggedIn$ = this.authService.currentUser$.pipe(map(user => !!user));
     this.searchSubject.pipe(
       debounceTime(300),
       distinctUntilChanged()
@@ -44,6 +39,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cartService.getCartCount().subscribe(count => {
+      this.cartCount = count;
+    });
+
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
       if (!user) {

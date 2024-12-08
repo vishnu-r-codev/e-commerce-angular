@@ -1,39 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CartService, CartItem } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './cart.component.html'
+  imports: [CommonModule, RouterModule, FormsModule],
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.scss']
 })
-export class CartComponent {
-  cartItems$: Observable<CartItem[]>;
-  cartTotal$: Observable<number>;
-  cartCount$: Observable<number>;
-  loading$: Observable<boolean>;
-  error$: Observable<string | null>;
+export class CartComponent implements OnInit {
+  cartItems: CartItem[] = [];
+  cartTotal: number = 0;
+  cartCount: number = 0;
 
-  constructor(private cartService: CartService) {
-    this.cartItems$ = this.cartService.getCartItems();
-    this.cartTotal$ = this.cartService.getCartTotal();
-    this.cartCount$ = this.cartService.getCartCount();
-    this.loading$ = this.cartService.getLoading();
-    this.error$ = this.cartService.getError();
+  constructor(
+    private cartService: CartService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.cartService.getCartItems().subscribe(items => {
+      this.cartItems = items;
+    });
+
+    this.cartService.getCartTotal().subscribe(total => {
+      this.cartTotal = total;
+    });
+
+    this.cartService.getCartCount().subscribe(count => {
+      this.cartCount = count;
+    });
   }
 
-  updateQuantity(item: CartItem, quantity: number) {
-    this.cartService.addToCart(item.product, quantity);
+  updateQuantity(productId: number, quantity: number) {
+    if (quantity > 0) {
+      this.cartService.updateQuantity(productId, quantity);
+    }
   }
 
-  removeItem(item: CartItem) {
-    this.cartService.removeFromCart(item.product.id);
+  removeItem(productId: number) {
+    this.cartService.removeFromCart(productId);
   }
 
-  clearCart() {
-    this.cartService.clearCart();
+  proceedToCheckout() {
+    this.router.navigate(['/checkout']);
   }
 } 
