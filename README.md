@@ -1,59 +1,119 @@
-# EcommerceApp
+# Angular E-commerce Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.3.
+A modern e-commerce application built with Angular 19, featuring a clean architecture and a responsive design.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- 🛍️ Product browsing with advanced filtering and sorting
+- 🔍 Real-time search functionality
+- 🛒 Shopping cart management
+- 👤 User authentication
+- 📱 Responsive design
+- 🎯 Category-based navigation
+- ⭐ Product ratings and reviews
+- 📦 Mock data service for development
+
+## Tech Stack
+
+- Angular 19
+- SCSS for styling
+- PrimeNG UI components
+- TypeScript
+- RxJS
+
+## Getting Started
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd ecommerce-angular
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+4. Open your browser and navigate to `http://localhost:4200`
 
-## Code scaffolding
+## Key Features in Detail
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Product Management
+- Browse products by category
+- Advanced filtering options:
+  - Price range
+  - Rating
+  - Category
+- Sort products by:
+  - Price (low to high/high to low)
+  - Rating
+  - Name
 
-```bash
-ng generate component component-name
+### Shopping Cart
+- Add/remove products
+- Update quantities
+- Persistent cart data
+- Real-time total calculation
+
+### User Experience
+- Responsive design for all devices
+- Loading states and error handling
+- Toast notifications for user actions
+- Clean and intuitive interface
+
+
+## Development Guidelines
+
+### Code Style
+- Follow Angular style guide
+- Use TypeScript strict mode
+- Implement proper error handling
+- Write meaningful comments
+- Use SCSS for styling
+
+### Component Structure
+- Smart/Container components for logic
+- Presentational components for UI
+- Proper input/output management
+- Lifecycle hooks optimization
+
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details
+
+## Acknowledgments
+
+- Angular team for the amazing framework
+- PrimeNG for the UI components
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+This README.md provides:
+1. Project overview
+2. Features list
+3. Tech stack details
+4. Project structure
+5. Setup instructions
+6. Development guidelines
+7. Contributing guidelines
+8. License information
 
-```bash
-ng generate --help
-```
+Would you like me to add or modify any sections?
 
-## Building
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
