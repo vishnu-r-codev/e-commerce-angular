@@ -10,7 +10,6 @@
 ## ✨ Key Features
 
 ### 🔍 Advanced Product Discovery
-- Real-time search with instant results
 - Smart filtering system by category, price, and rating
 - Dynamic sorting options (price, rating, name)
 - Category-based navigation
@@ -90,7 +89,6 @@ http://localhost:4200
 
 - 💻 Desktop browsers (Chrome, Firefox, Safari, Edge)
 - 📱 Mobile browsers
-- 📱 Progressive Web App (PWA) capabilities
 - 🖥️ Responsive design for all screen sizes
 
 ## 🔧 Development Guidelines
@@ -105,7 +103,6 @@ http://localhost:4200
 ### Component Architecture
 - Smart/Container pattern
 - Presentational components
-- Proper state management
 - Optimized change detection
 - Lazy loading implementation
 
